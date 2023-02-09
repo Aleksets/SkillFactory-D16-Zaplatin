@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ flatpage.title }}</title>
+</head>
+<body>
+    <!-- Responsive navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+<!--            <div class="collapse navbar-collapse" id="navbarResponsive">-->
+<!--                <ul class="navbar-nav ml-auto">-->
+<!--                    <li class="nav-item">-->
+<!--                        {%  if request.user.is_anonymous %}-->
+<!--                            <a class="nav-link" href="/accounts/login">{% trans "Enter or register" %}</a>-->
+<!--                        {% else %}-->
+<!--                            <a class="nav-link" href="/accounts/logout">{% trans "Sign out" %}</a>-->
+<!--                        {% endif %}-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/news/">{% trans "News list" %}</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="/news/search/">{% trans "News search" %}</a>-->
+<!--                    </li>-->
+<!--                    {% if perms.news.add_post %}-->
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link" href="/news/create/">{% trans "Create news/article" %}</a>-->
+<!--                        </li>-->
+<!--                    {% endif %}-->
+<!--                </ul>-->
+<!--                <form action="{% url 'set_language' %}" method="POST"> {% csrf_token %} &lt;!&ndash; Не забываем по csrf_token для POST запросов &ndash;&gt;-->
+<!--                    <input type="hidden" name="next" value="{{ redirect_to }}">-->
+<!--                    <select name="language" id="">-->
+<!--                        {% get_available_languages as LANGUAGES %} &lt;!&ndash; получаем языки &ndash;&gt;-->
+<!--                        {% get_language_info_list for LANGUAGES as languages %} &lt;!&ndash; Помещаем их в список languages &ndash;&gt;-->
+<!--                        {% for language in languages %} &lt;!&ndash; Итерируясь по списку, выводим их название на языке пользователя и код &ndash;&gt;-->
+<!--                            <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>-->
+<!--                                {{ language.name_local }} - {{ language.code }}-->
+<!--                            </option>-->
+<!--                        {% endfor %}-->
+<!--                    </select>-->
+<!--                    <input type="submit" value="Set">-->
+<!--                </form>-->
+<!--                <form action="" method="POST">-->
+<!--                    {% csrf_token %}-->
+<!--                    <label for="timezone">Time zone:</label>-->
+<!--                    <select name="timezone">-->
+<!--                        {% for tz in timezones %}-->
+<!--                            <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected{% endif %}>{{ tz }}</option>-->
+<!--                        {% endfor %}-->
+<!--                    </select>-->
+<!--                    <input type="submit" value="Set">-->
+<!--                </form>-->
+<!--            </div>-->
+        </div>
+    </nav>
+    <!-- Page content-->
+    {{ flatpage.content }}
+</body>
+</html>
