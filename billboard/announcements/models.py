@@ -1,5 +1,7 @@
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 
 # Model Author
@@ -12,25 +14,11 @@ class Author(models.Model):
         return self.author.username
 
 
-CATEGORIES = [
-    ('TA', 'Tanks'),
-    ('HE', 'Healers'),
-    ('DD', 'Damage Dealers'),
-    ('TR', 'Traders'),
-    ('GM', 'Guild Masters'),
-    ('QG', 'Quest Givers'),
-    ('SM', 'Smiths'),
-    ('TN', 'Tanners'),
-    ('PM', 'Potion Makers'),
-    ('SC', 'Spell Casters'),
-]
-
-
 # Model Category
 # Categories of announcements
 # It contains 1 field: category_name (unique)
 class Category(models.Model):
-    category_name = models.CharField(max_length=2, choices=CATEGORIES, unique=True)
+    category_name = models.CharField(max_length=20, unique=True)
 
     def __str__(self):
         return self.category_name
@@ -46,11 +34,22 @@ class Category(models.Model):
 # field "title"
 # field "text"
 class Announcement(models.Model):
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name='author')
     add_date = models.DateTimeField(auto_now_add=True)
-    category = models.ManyToManyField(Category, related_name='categories')
-    title = models.CharField(max_length=255)
-    text = models.TextField()
+    category = models.ManyToManyField(Category, related_name='categories', verbose_name='category')
+    title = models.CharField(max_length=255, verbose_name='title')
+    text = RichTextUploadingField(config_name='default')
+
+    def preview(self):
+        if len(self.text) > 51:
+            return f"{self.text[:51]}..."
+        elif len(self.text) == 51:
+            return self.text[:51]
+        else:
+            return self.text
+
+    def get_absolute_url(self):
+        return reverse('announcement', args=[str(self.id)])
 
     def __str__(self):
         return f'{self.title}\n{self.add_date.strftime("%d.%m.%Y")}\n{self.text}'
@@ -67,9 +66,9 @@ class Announcement(models.Model):
 class Comment(models.Model):
     announcement = models.ForeignKey(Announcement, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.TextField()
+    text = models.TextField(verbose_name='text')
     add_date = models.DateTimeField(auto_now_add=True)
-    is_new = models.BooleanField(default=False)
+    is_new = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.author}\n{self.add_date.strftime("%d.%m.%Y")}\n{self.text}'

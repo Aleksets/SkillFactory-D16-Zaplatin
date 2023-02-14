@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends 'flatpages/default.html' %}
+<html lang="en">
+{% block title %}
+    Announcement
+{% endblock title %}
+{% block content %}
+    <h1>{{ announcement.title }}</h1>
+    <h3>Author: {{ announcement.author }}, publication date: {{ announcement.add_date|date:'d.m.Y' }}</h3>
+    <hr>
+    <p>{{ announcement.text|safe }}</p>
+    <h1>Comments</h1>
+    {% if announcement.comment_set.all|length > 0 %}
+        <table>
+            <tr>
+                <td>Author</td>
+                <td>Publication date</td>
+                <td>Text</td>
+                <td>Actions</td>
+            </tr>
+            {% for comment in announcement.comment_set.all %}
+                <tr>
+                    <td>{{ comment.author }}</td>
+                    <td>{{ comment.add_date|date:'d.m.Y' }}</td>
+                    <td>{{ comment.text }}</td>
+                    <td>
+                        {% if comment.author == request.user or request.user.is_staff %}
+                            <a href="{% url 'comment_update' announcement.pk comment.pk %}">Change</a>
+                            <a href="{% url 'comment_delete' announcement.pk comment.pk %}">Delete</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        Комментариев пока нет!
+    {% endif %}
+{% endblock content %}
+</html>

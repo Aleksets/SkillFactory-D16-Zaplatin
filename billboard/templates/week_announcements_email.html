@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <p>Hello, {{ user.username }}! Here is a list of last week announcements!</p>
+    {% for announcement in announcements %}
+        <p>
+            {{ announcement.add_date }} {{ announcement.author.author }}
+            <a href="{{ link }}{{ announcement.pk }}">{{ announcement.title }}</a>
+        </p>
+    {% endfor %}
+</body>
+</html>

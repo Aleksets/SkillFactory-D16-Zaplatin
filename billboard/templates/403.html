@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Error 403</title>
+</head>
+<body>
+    <h1>You definitely don't have access to this page...</h1>
+    <p>
+        If you are already logged in, you may need to contact the site administrator.
+        <a href="{% url 'announcements' %}">Redirect to homepage</a>
+    </p>
+    <p>
+        If you are not registered on the site, you are welcome:
+        <a href="{% url 'signup' %}">Sign Up</a>
+    </p>
+    <p>
+        If you are not yet authorized on the site, we suggest you do this:
+        <a href="{% url 'login' %}">Log in</a>
+    </p>
+</body>
+</html>

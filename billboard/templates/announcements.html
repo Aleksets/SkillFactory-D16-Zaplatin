@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% extends 'flatpages/default.html' %}
+<html lang="en">
+{% block title %}
+    Announcements List
+{% endblock title %}
+{% block content %}
+    <h1>Announcements</h1>
+    <h3>Total at the moment: {{ page_obj.paginator.count }}</h3>
+    <hr>
+    {% if announcements %}
+        <table>
+            <tr>
+                <td>Publication date</td>
+                <td>Author</td>
+                <td>Title</td>
+                <td>Preview</td>
+                <td>Comments</td>
+                {% if perms.announcements.change_announcement or perms.announcements.delete_announcement or request.user.is_authenticated and announcement.author.author != request.user %}
+                    <td>Actions</td>
+                {% endif %}
+            </tr>
+            {% for announcement in announcements %}
+                <tr>
+                    <td>{{ announcement.add_date|date:'d.m.Y' }}</td>
+                    <td>{{ announcement.author }}</td>
+                    <td><a href="{% url 'announcement' announcement.id %}">{{ announcement.title }}</a></td>
+                    <td>{{ announcement.text|striptags|truncatechars:51 }}</td>
+                    <td>{{ announcement.comment_set.all|length }}</td>
+                    <td>
+                        {% if request.user.is_staff %}
+                            <a href="{% url 'announcement_update' announcement.id %}">Change</a>
+                            <a href="{% url 'announcement_delete' announcement.id %}">Delete</a>
+                        {% elif announcement.author.author == request.user %}
+                            {% if perms.announcements.change_announcement %}
+                                <a href="{% url 'announcement_update' announcement.id %}">Change</a>
+                            {% endif %}
+                            {% if perms.announcements.delete_announcement %}
+                                <a href="{% url 'announcement_delete' announcement.id %}">Delete</a>
+                            {% endif %}
+                        {% elif request.user.is_authenticated and announcement.author.author != request.user %}
+                            <a href="{% url 'comment_create' announcement.id %}">Comment</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2>No announcements!</h2>
+    {% endif %}
+
+    {# Adding pagination #}
+
+    {# Information about previous pages #}
+    {% if page_obj.has_previous %}
+        <a href="?page=1">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            {% if page_obj.previous_page_number != 2 %}
+                ...
+            {% endif %}
+            <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+
+    {# Information about current page #}
+    {{ page_obj.number }}
+
+    {# Information about next pages #}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number  %}
+            {% if paginator.num_pages|add:-1 != page_obj.next_page_number %}
+                ...
+            {% endif %}
+            <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+{% endblock content %}
+</html>

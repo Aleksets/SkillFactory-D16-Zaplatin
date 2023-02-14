@@ -1,0 +1,8 @@
+{% extends "flatpages/default.html" %}
+{% block title %}
+  Logout success
+{% endblock title %}
+{% block content %}
+    <p>You have successfully logged out.</p>
+    <a href="{% url 'announcements' %}">Redirect to homepage</a>
+{% endblock content %}

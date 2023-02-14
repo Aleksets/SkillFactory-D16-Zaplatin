@@ -1,0 +1,25 @@
+{% extends "flatpages/default.html" %}
+{% block title %}
+  Sign up
+{% endblock title %}
+{% block content %}
+  <div class = "container">
+    <h2>Sign up</h2>
+    <form method="post">
+      {% csrf_token %}
+      {% for field in form %}
+        <p align="left">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.help_text %}
+            {{ field.help_text }}
+          {% endif %}
+          {% for error in field.errors %}
+            <p style="color: red">{{ error }}</p>
+          {% endfor %}
+        </p>
+      {% endfor %}
+      <button type="submit">Sign up</button>
+    </form>
+  </div>
+{% endblock content %}

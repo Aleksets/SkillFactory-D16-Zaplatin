@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <p>Hello, {{ comment.author.username }}!</p>
+    <p>
+        Your comment "{{ comment.text }}" on the announcement
+        <a href="{{ link }}{{ announcement.pk }}">{{ announcement.title }}</a>
+        has been approved by {{ user.username }}
+    </p>
+</body>
+</html>

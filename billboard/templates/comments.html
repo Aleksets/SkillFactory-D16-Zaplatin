@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends 'flatpages/default.html' %}
+<html lang="en">
+{% block title %}
+    Your announcements and their comments
+{% endblock title %}
+{% block content %}
+    <h1>Your announcements and their comments</h1>
+    <hr>
+    {% if announcements %}
+        {% for announcement in announcements%}
+            <p>
+                <p>Announcement № {{announcement.pk}}</p>
+                {{ announcement.add_date|date:'d.m.Y' }} {{ announcement.title }} {{ announcement.text|striptags|truncatechars:51 }}
+            </p>
+                <br>
+                <p> Comments on announcement № {{announcement.pk}}</p>
+                {% if announcement.comment_set.all|length > 0 %}
+                    {% for comment in announcement.comment_set.all %}
+                        <p>
+                            {{ comment.add_date|date:'d.m.Y' }} {{ comment.author }} {{ comment.text }}
+                            {% if comment.is_new %}
+                                <a href="{% url 'comment_approve' announcement.pk comment.pk %}">Approve</a>
+                                <a href="{% url 'comment_delete' announcement.pk comment.id %}">Delete</a>
+                            {% endif %}
+                        </p>
+                    {% endfor %}
+                {% else %}
+                    <p>Комментариев пока нет!</p>
+                {% endif %}
+                <hr>
+        {% endfor %}
+    {% else %}
+        <p>No announcements!</p>
+    {% endif %}
+{% endblock content %}
+</html>

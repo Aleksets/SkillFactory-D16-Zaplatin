@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% extends 'flatpages/default.html' %}
+<html lang="en">
+{% block title %}
+    Announcement delete
+{% endblock title %}
+{% block content %}
+    <h1>Deleting an announcement</h1>
+    <hr>
+    <form action="" method="post">
+        {% csrf_token %}
+        <p>Delete {{ object.title }}?</p>
+        <input type="submit" value="Delete" />
+    </form>
+{% endblock content %}
+</html>

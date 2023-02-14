@@ -1,0 +1,8 @@
+{% extends "flatpages/default.html" %}
+{% block title %}
+  Signup success
+{% endblock title %}
+{% block content %}
+    <p>Thank you for your email confirmation. Now your account is activated and logged in.</p>
+    <a href="{% url 'announcements' %}">Redirect to homepage</a>
+{% endblock content %}

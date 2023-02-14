@@ -1,0 +1,13 @@
+{% extends "flatpages/default.html" %}
+{% block title %}
+  Signup failed
+{% endblock title %}
+{% block content %}
+    <p>
+      Activation link is invalid (it is not correct, or you missed 5 minutes interval)!
+      Please, try again.
+    </p>
+    <a href="{% url 'announcements' %}">Redirect to homepage</a>
+{% endblock content %}
+
+'

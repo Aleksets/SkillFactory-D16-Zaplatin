@@ -1,0 +1,12 @@
+{% extends "flatpages/default.html" %}
+{% block title %}
+  Confirm your email notice
+{% endblock title %}
+{% block content %}
+    <p>
+        We have emailed you a link.
+        Please confirm your email address to complete the registration.
+        You have to notice, that the link expires in 5 minutes.
+    </p>
+    <a href="{% url 'announcements' %}">Redirect to homepage</a>
+{% endblock content %}
